@@ -56,10 +56,10 @@ paddingBottom = key "padding-bottom"
 
 -------------------------------------------------------------------------------
 
-margin :: Size Abs -> Size Abs -> Size Abs -> Size Abs -> Css
+margin :: Size a -> Size a -> Size a -> Size a -> Css
 margin a b c d = key "margin"  (a ! b ! c ! d)
 
-marginTop, marginLeft, marginRight, marginBottom :: Size Abs -> Css
+marginTop, marginLeft, marginRight, marginBottom :: Size a -> Css
 
 marginTop     = key "margin-top"
 marginLeft    = key "margin-left"

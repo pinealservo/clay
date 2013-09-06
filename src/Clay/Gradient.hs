@@ -44,11 +44,11 @@ import Clay.Property
 import Clay.Size
 import Clay.Background
 
-type Ramp = [(Color, Size Rel)]
+type Ramp a = [(Color, Size a)]
 
 -------------------------------------------------------------------------------
 
-linearGradient :: Direction -> Ramp -> BackgroundImage
+linearGradient :: Direction -> Ramp a -> BackgroundImage
 linearGradient d xs = other $ Value $
   let Value v = "linear-gradient(" <> value d <> "," <> ramp xs <> ")"
    in browsers <> v
@@ -60,7 +60,7 @@ vGradient = shortcut (linearGradient (straight sideTop ))
 
 -------------------------------------------------------------------------------
 
-repeatingLinearGradient :: Direction -> Ramp -> BackgroundImage
+repeatingLinearGradient :: Direction -> Ramp a -> BackgroundImage
 repeatingLinearGradient d xs = other $ Value $
   let Value v = "repeating-linear-gradient(" <> value d <> "," <> ramp xs <> ")"
    in browsers <> v
@@ -99,21 +99,21 @@ farthestCorner = Extend "farthest-corner"
 
 -------------------------------------------------------------------------------
 
-radialGradient :: Loc l => l -> Radial -> Ramp -> BackgroundImage
+radialGradient :: Loc l => l -> Radial -> Ramp a -> BackgroundImage
 radialGradient d r xs = other $ Value $
   let Value v = "radial-gradient(" <> value [value d, value r, ramp xs] <> ")"
    in browsers <> v
 
-repeatingRadialGradient :: Loc l => l -> Radial -> Ramp -> BackgroundImage
+repeatingRadialGradient :: Loc l => l -> Radial -> Ramp a -> BackgroundImage
 repeatingRadialGradient d r xs = other $ Value $
   let Value v = "repeating-radial-gradient(" <> value [value d, value r, ramp xs] <> ")"
    in browsers <> v
 
 -------------------------------------------------------------------------------
 
-ramp :: Ramp -> Value
+ramp :: Ramp a -> Value
 ramp xs = value (map (\(a, b) -> value (value a, value b)) xs)
 
-shortcut :: (Ramp -> BackgroundImage) -> Color -> Color -> BackgroundImage
-shortcut g f t = g [(f, 0), (t, 100)]
+shortcut :: (Ramp Rel -> BackgroundImage) -> Color -> Color -> BackgroundImage
+shortcut g f t = g [(f, pct 0), (t, pct 100)]
 
